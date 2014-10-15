@@ -10,19 +10,19 @@ import (
 )
 
 // Logger is a middleware handler that logs the request as it goes in and the response as it goes out.
-type Logger struct {
+type logger struct {
 	*log.Logger
 }
 
 // New() returns a new Logger instance
-func New() *Logger {
-	return &Logger{
+func New() web.Handler {
+	return &logger{
 		Logger: log.New(os.Stdout, "", 0),
 	}
 }
 
 // Serve() sets up the logging time and runs the next middleware
-func (lg *Logger) Serve(ctx web.Context) {
+func (lg *logger) Serve(ctx web.Context) {
 
 	// Start now
 	start := time.Now()
