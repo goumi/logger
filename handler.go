@@ -14,14 +14,14 @@ type logger struct {
 	*log.Logger
 }
 
-// New() returns a new Logger instance
+// New returns a new Logger instance
 func New() web.Handler {
 	return &logger{
 		Logger: log.New(os.Stdout, "", 0),
 	}
 }
 
-// Serve() sets up the logging time and runs the next middleware
+// Serve sets up the logging time and runs the next middleware
 func (lg *logger) Serve(ctx web.Context) {
 
 	// Start now
@@ -34,10 +34,15 @@ func (lg *logger) Serve(ctx web.Context) {
 	ctx.Next()
 
 	// Load the response data
-	statusCode := ctx.Response().StatusCode()
-	statusText := http.StatusText(ctx.Response().StatusCode())
 	timeSince := time.Since(start)
-	contentSize := ByteSize(ctx.Response().ContentLength()).String()
+
+	// Status
+	statusCode := ctx.Response().StatusCode()
+	statusText := http.StatusText(statusCode)
+
+	// Content
+	contentLength := ctx.Response().ContentLength()
+	contentSize := ByteSize(contentLength).String()
 
 	// Print the response data
 	lg.Printf("[Goumi] Res <- %v %s - %v %v", statusCode, statusText, timeSince, contentSize)
