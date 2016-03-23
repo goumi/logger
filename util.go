@@ -2,8 +2,10 @@ package logger
 
 import "fmt"
 
+// ByteSize keeps the size
 type ByteSize float64
 
+// KB, MB, GB, TB, PB, EB, ZB, YB sizes
 const (
 	_           = iota // ignore first value by assigning to blank identifier
 	KB ByteSize = 1 << (10 * iota)
